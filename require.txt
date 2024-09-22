@@ -1,0 +1,140 @@
+for tensorflow-gpu (windows):
+
+    python==3.9.18
+    tensorflow==2.10.1
+    tensorflow-gpu==2.10.0
+    tensorflow-text==2.10.0
+    tensorflow-hub==0.16.1
+    keras==2.10.0
+    pandas==2.2.2
+    numpy==1.24.0
+    charset-normalizer==3.1.0
+    protobuf==3.19.6
+    h5py==3.8.0
+    tf-keras==2.15.0
+
+
+tensorflow-gpu installation (conda virtual env):
+
+    <--use miniconda .exe to install it-->
+    conda create -n test_env python=3.9.18 anaconda
+    conda activate test_env
+    conda install python==3.9.18
+    pip install numpy==1.24.0
+    pip install --upgrade tensorflow-gpu==2.10.0 --user
+    conda install -c anaconda tensorflow-gpu==2.10.0
+    pip install charset-normalizer==3.1.0 --user
+    pip install h5py==3.8
+    pip install tensorflow-text
+
+
+for pytorch-stable-diffusion:
+
+    torch==2.3.1
+
+pytorch-stable-diffusion installation (conda virtual env):
+
+    conda create -n test_env python=3.9.18 anaconda
+    conda activate test_env
+    conda install python==3.9.18
+    pip install torch==2.3.1
+
+
+for additional packages:
+
+    scikit-learn==1.4.2
+    matplotlib==3.9.1
+    scipy==1.11.3 (additional req: numpy<1.28.0,>=1.21.6)
+    wordcloud==1.9.3
+
+
+additional install:
+
+    pip install scikit-learn
+    pip install wordcloud
+    pip install scipy
+
+
+gpu/cuda check:
+
+    python -c "import tensorflow as tf; print(tf.__version__,tf.test.is_built_with_cuda(),tf.config.list_physical_devices('GPU'))"
+
+
+deletion:
+
+    conda remove -n test_env --all
+
+
+for wsl2 install (tensorflow on gpu):
+
+    wsl --install
+
+    <--System Reboot-->
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt install python3 
+    sudo apt install python3-pip
+
+    <--Miniconda3 install-->
+
+    curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh
+
+    conda create -n test_env python=3.11.9 anaconda
+    conda activate test_env
+
+    pip3 install tensorflow[and-cuda]   # do not pip3 install tensorflow
+    conda install cudatoolkit=10.2
+
+    pip3 install numpy==2.0.0
+    pip3 install pandas==2.2.2
+    pip3 install h5py==3.11.0
+    pip3 install keras==3.4.1
+
+
+building tensorflow-text (ubuntu):
+
+    <--bazel install-->
+    sudo apt install apt-transport-https curl gnupg -y
+    curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+    sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+
+    sudo apt update && sudo apt install bazel-6.5.0
+    sudo apt install bazel-6.50
+    sudo apt-get install git-core (git)
+    git config --global user.email "git-email"
+    git config --global user.name "git-name"
+
+    <--tensorflow_text build-->
+    git clone https://github.com/tensorflow/text.git
+    cd text
+    ./oss_scripts/run_build.sh --jobs=1 --local_ ram_ Resources = 40960  (python==[3.9,3.10,3.12], just run as many times, it will succeed)
+    pip3 install ./tensorflow_text-*-*-*-os_platform.whl (eg: tensorflow_text-2.16.1-cp311-cp311-linux_x86_64.whl)
+    
+
+for tensorflow (wsl2):
+
+    python==3.11.9
+    tensorflow==2.16.2
+    keras==3.4.1
+    numpy==1.26.4
+    pandas==2.2.2
+    h5py==3.11.0
+    keras==3.4.1
+    protobuf==3.20.3
+
+
+for object detection api (tf in wsl / Optional): [Note: this is a seperate model]
+    pip install "cython<3.0.0" wheel
+    pip3 install pyyaml==6.0.0
+    pip3 install tf-models-official==2.16.0 {needs tensorflow-text==2.16.0}
+    git clone --depth 1 https://github.com/tensorflow/models
+    sudo apt install -y protobuf-compiler
+    cd models/research/
+    protoc object_detection/protos/*.proto --python_out=.
+    cp object_detection/packages/tf2/setup.py .
+    python -m pip install .
+    
+Big Hint=> If you're using the code inside a .py file: Use os.path.abspath(__file__) If you're using the code on a script directly or in Jupyter Notebooks: Put the file inside double-quotes. os.path.abspath("__file__")
