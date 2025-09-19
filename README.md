@@ -1,5 +1,5 @@
 VisuGAN: Text-to-Video Synthesis for Everyone
-
+<br>
 
 
 VisuGAN is a groundbreaking text-to-video synthesis model designed with a specific focus on accessibility and performance. While traditional models require immense computational power, VisuGAN is optimized to run efficiently on a broader range of hardware, making powerful video generation accessible to users with lower-end GPUs, such as the NVIDIA GeForce GTX 1050 and similar models.
